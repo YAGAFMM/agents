@@ -68,17 +68,26 @@ sequenceDiagram
 
 ### Activación (Activation)
 
-Representa el periodo durante el cual un participante ejecuta una operación.
+Representa el periodo durante el cual un participante está ejecutando una operación. Se muestra como una barra vertical sobre su línea de vida.
+
+La activación es opcional. En un flujo lineal sencillo, los mensajes suelen bastar para entender el orden. Añádela cuando ayude a ver cuánto dura el procesamiento de un participante o cómo una operación queda pendiente mientras espera una llamada a otro participante.
+
+En este ejemplo, ChatGPT permanece activo mientras Notion busca las tareas. Notion también se activa durante su consulta; al responder, su activación termina y ChatGPT continúa procesando hasta entregar el resultado.
 
 ```mermaid
 sequenceDiagram
     actor U as Usuario
     participant C as ChatGPT
+    participant N as Notion
 
-    U->>C: Solicitar planificación
+    U->>C: Consultar mis tareas pendientes
     activate C
-    C->>C: Procesar información
-    C-->>U: Entregar planificación
+    C->>N: Buscar tareas pendientes
+    activate N
+    N-->>C: Devolver lista de tareas
+    deactivate N
+    C->>C: Preparar un resumen
+    C-->>U: Mostrar resumen
     deactivate C
 ```
 
