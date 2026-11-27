@@ -46,8 +46,6 @@ No se puede afirmar que CUA, por el solo hecho de usar la interfaz, consuma siem
 
 Para crear repositorios desde la computadora, la preferencia es **Codex con GitHub CLI**. Así Codex puede ejecutar `gh repo create` en la terminal, tras comprobar que `gh` está disponible y autenticado en la cuenta correcta. En la sesión actual, `gh` no estaba instalado o no era visible en la terminal revisada. No se instaló ni se configuró durante esta conversación.
 
-**Nota sobre ChatGPT Plus:** Plus da acceso a funciones según disponibilidad y despliegue de la cuenta. Tener Plus por sí solo no añade una acción de creación al conector MCP de GitHub. Las herramientas habilitadas y los permisos siguen determinando lo que Work puede realizar.
-
 ## Referencias oficiales
 
 - [ChatGPT Work y Codex](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex)
