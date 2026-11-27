@@ -115,3 +115,64 @@ flowchart TD
     F --> N[par]
     F --> O[break]
 ```
+
+
+## 3. Ejemplo completo: planificar tareas con fragmentos combinados
+
+Imagina que el usuario pide organizar las próximas dos horas. ChatGPT consulta la información y decide qué hacer según lo que encuentre.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor U as Usuario
+    participant C as ChatGPT
+    participant N as Notion
+    participant G as Google Calendar
+
+    U->>C: Organiza mis próximas 2 horas
+    C->>N: Consultar tareas pendientes
+    N-->>C: Lista de tareas
+
+    alt Hay tareas pendientes
+        par Consultar fechas límite
+            C->>N: Obtener fechas límite
+            N-->>C: Fechas de las tareas
+        and Consultar disponibilidad
+            C->>G: Consultar horarios libres
+            G-->>C: Horarios disponibles
+        end
+
+        loop Por cada tarea candidata
+            C->>C: Revisar prioridad y duración
+
+            alt Falta información necesaria
+                break No se puede planificar con seguridad
+                    C-->>U: Pedir el dato que falta
+                end
+            else La información está completa
+                C->>C: Añadir tarea a la propuesta
+            end
+        end
+
+        opt Queda tiempo disponible
+            C->>G: Crear bloques de trabajo
+            G-->>C: Confirmar eventos
+            C->>N: Marcar tareas como programadas
+            N-->>C: Confirmar actualización
+        end
+
+        C-->>U: Presentar la planificación
+    else No hay tareas pendientes
+        C-->>U: Informar que no hay tareas por planificar
+    end
+```
+
+### ¿Qué hace cada fragmento en este ejemplo?
+
+- **`alt` (alternativas):** el primer `alt` elige entre dos caminos: hay tareas pendientes o no las hay. El segundo elige qué hacer con cada tarea según tenga información suficiente.
+- **`par` (paralelo):** consulta las fechas límite y la disponibilidad en paralelo. Son dos consultas independientes, así que no hace falta esperar a que termine una antes de empezar la otra.
+- **`loop` (repetición):** revisa cada tarea candidata usando los mismos pasos.
+- **`break` (interrupción):** si falta un dato necesario, interrumpe el procesamiento de ese fragmento y pide la aclaración al usuario.
+- **`opt` (opcional):** solo crea eventos y actualiza Notion si queda tiempo disponible. Si no queda tiempo, se omite ese bloque.
+
+Los fragmentos dibujan el alcance de cada decisión o grupo de pasos. En Mermaid, cada fragmento comienza con su palabra clave y termina con `end`; `else` separa alternativas dentro de `alt`, y `and` separa ramas dentro de `par`.
